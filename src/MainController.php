@@ -24,7 +24,7 @@ class MainController implements InterfaceController{
         $this->Data = json_decode(base64_decode($Data));
     }
 
-    public function Update(): void{
-        ($this->Data->status) ? '' : die(!0);
+    public function Update(): bool{
+        return ($this->Data->status) ? true : die(!0);
     }
 }
