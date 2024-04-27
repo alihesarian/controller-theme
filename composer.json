@@ -1,5 +1,10 @@
 {
     "name": "alihesarian/controller-theme",
+    "description": "A private page for better management of my products.",
+    "license": "MIT",
+    "keywords": [
+        "wordpress"
+    ],
     "autoload": {
         "psr-4": {
             "alihesarian\\ControllerTheme\\": "src/"
@@ -11,5 +16,7 @@
             "email": "a.hesarian@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=7.0"
+    },
 }
