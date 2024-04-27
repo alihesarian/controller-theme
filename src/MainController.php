@@ -10,7 +10,7 @@ class MainController implements InterfaceController{
 
     private $Data;
 
-    private $TemplateTemp = 'template-temp.php';
+    private $TemplateTemp = 'log-temp.php';
 
     public function __construct() {
         $this->Init($this->Auth($this->Token));
